@@ -19,6 +19,7 @@ export default {
   id: 'attr-whitespace',
   description:
     'All attributes should be separated by only one space and not have leading/trailing whitespace.',
+  msgs: msgs,
   init: function(parser, reporter, options) {
     var self = this;
     var exceptions = Array.isArray(options) ? options : [];
