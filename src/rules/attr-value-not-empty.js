@@ -1,6 +1,13 @@
+var msgs = {
+  warn1: function(values) {
+    return 'The attribute [ ' + values.attr.name + ' ] must have a value.';
+  }
+};
+
 export default {
   id: 'attr-value-not-empty',
   description: 'All attributes must have values.',
+  msgs: msgs,
   init: function(parser, reporter) {
     var self = this;
     parser.addListener('tagstart', function(event) {
@@ -11,7 +18,7 @@ export default {
         attr = attrs[i];
         if (attr.quote === '' && attr.value === '') {
           reporter.warn(
-            'The attribute [ ' + attr.name + ' ] must have a value.',
+            msgs.warn1({attr: attr}),
             event.line,
             col + attr.index,
             self,

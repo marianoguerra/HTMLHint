@@ -1,6 +1,15 @@
+var msgs = {
+  error1: function(values) {
+    return (
+      'Duplicate of attribute name [ ' + values.attr.name + ' ] was found.'
+    );
+  }
+};
+
 export default {
   id: 'attr-no-duplication',
   description: 'Elements cannot have duplicate attributes.',
+  msgs: msgs,
   init: function(parser, reporter) {
     var self = this;
     parser.addListener('tagstart', function(event) {
@@ -15,7 +24,7 @@ export default {
         attrName = attr.name;
         if (mapAttrName[attrName] === true) {
           reporter.error(
-            'Duplicate of attribute name [ ' + attr.name + ' ] was found.',
+            msgs.error1({attr: attr}),
             event.line,
             col + attr.index,
             self,

@@ -1,6 +1,35 @@
+var msgs = {
+  error1: function(values) {
+    return (
+      'Tag must be paired, missing: [ ' +
+      values.arrTags.join('') +
+      ' ], start tag match failed [ ' +
+      values.lastEvent.raw +
+      ' ] on line ' +
+      values.lastEvent.line +
+      '.'
+    );
+  },
+  error2: function(values) {
+    return 'Tag must be paired, no start tag: [ ' + values.event.raw + ' ]';
+  },
+  error3: function(values) {
+    return (
+      'Tag must be paired, missing: [ ' +
+      values.arrTags.join('') +
+      ' ], open tag match failed [ ' +
+      values.lastEvent.raw +
+      ' ] on line ' +
+      values.lastEvent.line +
+      '.'
+    );
+  }
+};
+
 export default {
   id: 'tag-pair',
   description: 'Tag must be paired.',
+  msgs: msgs,
   init: function(parser, reporter) {
     var self = this;
     var stack = [],
@@ -33,13 +62,7 @@ export default {
         if (arrTags.length > 0) {
           var lastEvent = stack[stack.length - 1];
           reporter.error(
-            'Tag must be paired, missing: [ ' +
-              arrTags.join('') +
-              ' ], start tag match failed [ ' +
-              lastEvent.raw +
-              ' ] on line ' +
-              lastEvent.line +
-              '.',
+            msgs.error1({arrTags: arrTags, lastEvent: lastEvent}),
             event.line,
             event.col,
             self,
@@ -49,7 +72,7 @@ export default {
         stack.length = pos;
       } else {
         reporter.error(
-          'Tag must be paired, no start tag: [ ' + event.raw + ' ]',
+          msgs.error2({event: event}),
           event.line,
           event.col,
           self,
@@ -65,13 +88,7 @@ export default {
       if (arrTags.length > 0) {
         var lastEvent = stack[stack.length - 1];
         reporter.error(
-          'Tag must be paired, missing: [ ' +
-            arrTags.join('') +
-            ' ], open tag match failed [ ' +
-            lastEvent.raw +
-            ' ] on line ' +
-            lastEvent.line +
-            '.',
+          msgs.error3({arrTags: arrTags, lastEvent: lastEvent}),
           event.line,
           event.col,
           self,

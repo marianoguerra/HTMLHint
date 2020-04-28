@@ -1,3 +1,20 @@
+var msgs = {
+  error1: function(values) {
+    return (
+      'The attributes of [ ' +
+      values.attrName +
+      ' ] must not have trailing whitespace.'
+    );
+  },
+  error2: function(values) {
+    return (
+      'The attributes of [ ' +
+      values.attrName +
+      ' ] must be separated by only one space.'
+    );
+  }
+};
+
 export default {
   id: 'attr-whitespace',
   description:
@@ -21,9 +38,7 @@ export default {
         //Check first and last characters for spaces
         if (elem.value.trim(elem.value) !== elem.value) {
           reporter.error(
-            'The attributes of [ ' +
-              attrName +
-              ' ] must not have trailing whitespace.',
+            msgs.error1({attrName: attrName}),
             event.line,
             col + attr.index,
             self,
@@ -32,9 +47,7 @@ export default {
         }
         if (elem.value.replace(/ +(?= )/g, '') !== elem.value) {
           reporter.error(
-            'The attributes of [ ' +
-              attrName +
-              ' ] must be separated by only one space.',
+            msgs.error2({attrName: attrName}),
             event.line,
             col + attr.index,
             self,

@@ -1,6 +1,17 @@
+var msgs = {
+  error1: function(values) {
+    return (
+      'The html element name of [ ' +
+      values.tagName +
+      ' ] must be in lowercase.'
+    );
+  }
+};
+
 export default {
   id: 'tagname-lowercase',
   description: 'All html element names must be in lowercase.',
+  msgs: msgs,
   init: function(parser, reporter, options) {
     var self = this;
     var exceptions = Array.isArray(options) ? options : [];
@@ -11,7 +22,7 @@ export default {
         tagName !== tagName.toLowerCase()
       ) {
         reporter.error(
-          'The html element name of [ ' + tagName + ' ] must be in lowercase.',
+          msgs.error1({tagName: tagName}),
           event.line,
           event.col,
           self,

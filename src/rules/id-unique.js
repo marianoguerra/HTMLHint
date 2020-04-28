@@ -1,6 +1,13 @@
+var msgs = {
+  error1: function(values) {
+    return 'The id value [ ' + values.id + ' ] must be unique.';
+  }
+};
+
 export default {
   id: 'id-unique',
   description: 'The value of id attributes must be unique.',
+  msgs: msgs,
   init: function(parser, reporter) {
     var self = this;
     var mapIdCount = {};
@@ -21,7 +28,7 @@ export default {
             }
             if (mapIdCount[id] > 1) {
               reporter.error(
-                'The id value [ ' + id + ' ] must be unique.',
+                msgs.error1({id: id}),
                 event.line,
                 col + attr.index,
                 self,

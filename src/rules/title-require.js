@@ -1,6 +1,12 @@
+var msgs = {
+  error1: '<title></title> must not be empty.',
+  error2: '<title> must be present in <head> tag.'
+};
+
 export default {
   id: 'title-require',
   description: '<title> must be present in <head> tag.',
+  msgs: msgs,
   init: function(parser, reporter) {
     var self = this;
     var headBegin = false;
@@ -22,7 +28,7 @@ export default {
           (lastEvent.type === 'text' && /^\s*$/.test(lastEvent.raw) === true)
         ) {
           reporter.error(
-            '<title></title> must not be empty.',
+            msgs.error1,
             event.line,
             event.col,
             self,
@@ -32,7 +38,7 @@ export default {
       } else if (tagName === 'head') {
         if (hasTitle === false) {
           reporter.error(
-            '<title> must be present in <head> tag.',
+            msgs.error2,
             event.line,
             event.col,
             self,

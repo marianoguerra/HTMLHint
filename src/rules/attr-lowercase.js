@@ -38,9 +38,18 @@ function testAgainstStringOrRegExp(value, comparison) {
   return value === comparison;
 }
 
+var msgs = {
+  error1: function(values) {
+    return (
+      'The attribute name of [ ' + values.attrName + ' ] must be in lowercase.'
+    );
+  }
+};
+
 export default {
   id: 'attr-lowercase',
   description: 'All attribute names must be in lowercase.',
+  msgs: msgs,
   init: function(parser, reporter, options) {
     var self = this;
     var exceptions = Array.isArray(options) ? options : [];
@@ -56,7 +65,7 @@ export default {
           attrName !== attrName.toLowerCase()
         ) {
           reporter.error(
-            'The attribute name of [ ' + attrName + ' ] must be in lowercase.',
+            msgs.error1({attrName: attrName}),
             event.line,
             col + attr.index,
             self,
